@@ -55,8 +55,8 @@ public class VacantesController {
 			return "vacantes/formVacante";
 		}
 		serviceVacantes.guardar(vacante);
-		System.out.println("Vacante: " + vacante);
-		return "vacantes/listVacantes";
+		System.out.println("Vacante: " + vacante);		
+		return "redirect:/vacantes/index"; 
 	}
 
 	/*
