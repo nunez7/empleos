@@ -32,11 +32,11 @@ public class VacantesController {
 	 * @Autowired private ICategoriasService serviceCategorias;
 	 */
 
-	//Se utiliza para formatear los date antes de recibir los datos
-	@InitBinder
-	public void initBinder(WebDataBinder webDataBinder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+	@GetMapping("/index")
+	public String mostrarIndex(Model model) {
+		//Obtener todas las vacantes y agregarlo al modelo
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
+		return "vacantes/listVacantes";
 	}
 
 	@GetMapping("/create")
@@ -87,5 +87,12 @@ public class VacantesController {
 		// Buscar los detalles de la vacante en la BD...
 		return "detalle";
 	}
+	
+	//Se utiliza para formatear los date antes de recibir los datos
+		@InitBinder
+		public void initBinder(WebDataBinder webDataBinder) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		}
 
 }
