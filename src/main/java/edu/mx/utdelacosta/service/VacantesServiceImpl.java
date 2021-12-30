@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import edu.mx.utdelacosta.model.Vacante;
 
 @Service
-public class VacantesServiceImpl implements IVacanteService {
+public class VacantesServiceImpl implements IVacantesService {
 
 	private List<Vacante> lista =null;
 

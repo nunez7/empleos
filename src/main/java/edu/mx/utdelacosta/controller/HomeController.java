@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import edu.mx.utdelacosta.model.Vacante;
-import edu.mx.utdelacosta.service.IVacanteService;
+import edu.mx.utdelacosta.service.IVacantesService;
 
 @Controller
 public class HomeController {
 	//Inyectando instancias
 	@Autowired
-	private IVacanteService serviceVacantes;
+	private IVacantesService serviceVacantes;
 	
 	@GetMapping("/tabla")
 	public String mostrarTabla(Model model) {
