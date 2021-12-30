@@ -46,7 +46,7 @@ public class VacantesController {
 	}
 
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result) {
+	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			// Mandar errores a consola
 			for (ObjectError error : result.getAllErrors()) {
@@ -55,7 +55,8 @@ public class VacantesController {
 			return "vacantes/formVacante";
 		}
 		serviceVacantes.guardar(vacante);
-		System.out.println("Vacante: " + vacante);		
+		System.out.println("Vacante: " + vacante);
+		attributes.addFlashAttribute("msg", "Registro Guardado");
 		return "redirect:/vacantes/index"; 
 	}
 
