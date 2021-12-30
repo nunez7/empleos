@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.mx.utdelacosta.model.Vacante;
+import edu.mx.utdelacosta.service.ICategoriasService;
 import edu.mx.utdelacosta.service.IVacantesService;
 
 @Controller
@@ -28,9 +29,10 @@ public class VacantesController {
 	@Autowired
 	private IVacantesService serviceVacantes;
 
-	/*
-	 * @Autowired private ICategoriasService serviceCategorias;
-	 */
+	
+	 @Autowired 
+	 private ICategoriasService serviceCategorias;
+	 
 
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) {
@@ -41,7 +43,7 @@ public class VacantesController {
 
 	@GetMapping("/create")
 	public String crear(Vacante vacante, Model model) {
-		// model.addAttribute("categorias", serviceCategorias.buscarTodas() );
+		model.addAttribute("categorias", serviceCategorias.buscarTodas() );
 		return "vacantes/formVacante";
 	}
 

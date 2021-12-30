@@ -1,4 +1,4 @@
-package edu.mx.utdelacosta.service;
+package edu.mx.utdelacosta.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import edu.mx.utdelacosta.model.Vacante;
+import edu.mx.utdelacosta.service.IVacantesService;
 
 @Service
 public class VacantesServiceImpl implements IVacantesService {
