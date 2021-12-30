@@ -34,7 +34,7 @@ public class VacantesController {
 
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) {
-		//Obtener todas las vacantes y agregarlo al modelo
+		// Obtener todas las vacantes y agregarlo al modelo
 		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
 		return "vacantes/listVacantes";
 	}
@@ -46,7 +46,14 @@ public class VacantesController {
 	}
 
 	@PostMapping("/save")
-	public String guardar(Vacante vacante) {
+	public String guardar(Vacante vacante, BindingResult result) {
+		if (result.hasErrors()) {
+			// Mandar errores a consola
+			for (ObjectError error : result.getAllErrors()) {
+				System.out.println("Ocurrio un error: " + error.getDefaultMessage());
+			}
+			return "vacantes/formVacante";
+		}
 		serviceVacantes.guardar(vacante);
 		System.out.println("Vacante: " + vacante);
 		return "vacantes/listVacantes";
@@ -87,12 +94,12 @@ public class VacantesController {
 		// Buscar los detalles de la vacante en la BD...
 		return "detalle";
 	}
-	
-	//Se utiliza para formatear los date antes de recibir los datos
-		@InitBinder
-		public void initBinder(WebDataBinder webDataBinder) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-		}
+
+	// Se utiliza para formatear los date antes de recibir los datos
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+	}
 
 }
