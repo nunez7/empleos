@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.mx.utdelacosta.model.Categoria;
-import edu.mx.utdelacosta.model.Vacante;
 import edu.mx.utdelacosta.service.ICategoriasService;
 
 @Controller

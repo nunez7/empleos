@@ -9,8 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.mx.utdelacosta.model.Rol;
+import edu.mx.utdelacosta.model.Usuario;
 import edu.mx.utdelacosta.model.Vacante;
+import edu.mx.utdelacosta.service.IUsuariosService;
 import edu.mx.utdelacosta.service.IVacantesService;
 
 @Controller
@@ -18,6 +23,9 @@ public class HomeController {
 	//Inyectando instancias
 	@Autowired
 	private IVacantesService serviceVacantes;
+	
+	@Autowired
+	private IUsuariosService serviceUsuarios;
 	
 	@GetMapping("/tabla")
 	public String mostrarTabla(Model model) {
@@ -53,6 +61,29 @@ public class HomeController {
 	@GetMapping("/")
 	public String mostrarHome(Model model) {
 		return "home";
+	}
+	
+	@GetMapping("/signup")
+	public String registrarse(Usuario usuario) {
+		return "formRegistro";
+	}
+	
+	@PostMapping("/signup")
+	public String guardarRegistro(Usuario usuario, RedirectAttributes attributes) {
+
+		// Ejercicio.
+		usuario.setEstatus(1); // Activado por defecto
+		usuario.setFechaRegistro(new Date()); // Fecha de Registro, la fecha actual del servidor
+		// Creamos el Perfil que le asignaremos al usuario nuevo
+		Rol rol = new Rol();
+		rol.setId(3); // Perfil USUARIO
+		usuario.agregar(rol);
+		/**
+		 * Guardamos el usuario en la base de datos. El Perfil se guarda automaticamente
+		 */
+		serviceUsuarios.guardar(usuario);
+		attributes.addFlashAttribute("msg", "El registro fue guardado correctamente!");
+		return "redirect:/usuarios/index";
 	}
 	
 	//Estos atributos estaran disponibles a todos los metodos
