@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,6 @@ public class VacantesController {
 
 	@GetMapping("/create")
 	public String crear(Vacante vacante, Model model) {
-		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		return "vacantes/formVacante";
 	}
 
@@ -102,6 +102,13 @@ public class VacantesController {
 		attributes.addFlashAttribute("msg", "La vacante fue eliminada");
 		return "redirect:/vacantes/index";
 	}
+	
+	@GetMapping("/edit/{id}")
+	public String editar(@PathVariable("id") int idVacante, Model model) {
+		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
+		model.addAttribute("vacante", vacante);
+		return "vacantes/formVacante";
+	}
 
 	// URL Dinamica
 	@GetMapping("/view/{id}")
@@ -112,6 +119,11 @@ public class VacantesController {
 		model.addAttribute("vacante", vacante);
 		// Buscar los detalles de la vacante en la BD...
 		return "detalle";
+	}
+	//Datos comunes en los metodos
+	@ModelAttribute
+	public void setGenericos(Model model) {
+		model.addAttribute("categorias", serviceCategorias.buscarTodas() );
 	}
 
 	// Se utiliza para formatear los date antes de recibir los datos
