@@ -44,9 +44,16 @@ public class EmpleosApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		buscarUsuario();
+		buscarVacantesPorEstatus();
 	}
 	
+	/*Query methods*/
+	public void buscarVacantesPorEstatus() {
+		List<Vacante> lista = repoVacantes.findByEstatus("Eliminada");
+		for (Vacante vacante : lista) {
+			System.out.println(vacante.getNombre());
+		}
+	}
 
 	/**
 	 * Metodo para buscar un usuario y desplegar sus perfiles asociados.
