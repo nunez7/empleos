@@ -1,5 +1,6 @@
 package edu.mx.utdelacosta;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import edu.mx.utdelacosta.model.Categoria;
+import edu.mx.utdelacosta.model.Rol;
+import edu.mx.utdelacosta.model.Usuario;
 import edu.mx.utdelacosta.model.Vacante;
 import edu.mx.utdelacosta.repository.CategoriasRepository;
+import edu.mx.utdelacosta.repository.RolesRepository;
+import edu.mx.utdelacosta.repository.UsuariosRepository;
 import edu.mx.utdelacosta.repository.VacantesRepository;
 
 @SpringBootApplication
@@ -26,6 +31,12 @@ public class EmpleosApplication implements CommandLineRunner{
 	
 	@Autowired
 	private VacantesRepository repoVacantes;
+	
+	@Autowired
+	private UsuariosRepository repoUsuarios;
+	
+	@Autowired
+	private RolesRepository repoPerfiles;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmpleosApplication.class, args);
@@ -33,7 +44,72 @@ public class EmpleosApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		buscarVacantes();
+		buscarUsuario();
+	}
+	
+
+	/**
+	 * Metodo para buscar un usuario y desplegar sus perfiles asociados.
+	 */
+	public void buscarUsuario() {
+		Optional<Usuario> optional = repoUsuarios.findById(1);
+		if (optional.isPresent()) {
+			Usuario u = optional.get();
+			System.out.println("Usuario: " + u.getNombre());
+			System.out.println("Perfiles asignados");
+			for (Rol p : u.getRoles()) {
+				System.out.println(p.getRol());
+			}
+		}else {
+			System.out.println("Usuario no encontrado");
+		}
+	}
+	
+	/**
+	 * Crear un usuario con 2 perfiles ("ADMINISTRADOR", "USUARIO")
+	 */
+	private void crearUsuarioConDosPerfiles() {
+		Usuario user = new Usuario();
+		user.setNombre("Felix Nuñez");
+		user.setEmail("felixjavier0@gmail.com");
+		user.setFechaRegistro(new Date());
+		user.setUsername("fnunez");
+		user.setPassword("12345");
+		user.setEstatus(1);
+		
+		Rol per1 = new Rol();
+		per1.setId(2);
+		
+		Rol per2 = new Rol();
+		per2.setId(3);
+		
+		user.agregar(per1);
+		user.agregar(per2);
+		
+		repoUsuarios.save(user); 
+	}
+	
+	/**
+	 * Metodo para crear PERFILES / ROLES
+	 */
+	private void crearPerfilesAplicacion() {
+		repoPerfiles.saveAll(getPerfilesAplicacion());
+	}
+	
+	private void guardarVacante() {
+		Vacante vacante = new Vacante();
+		vacante.setNombre("Profesor de Matematicas");
+		vacante.setDescripcion("Escuela primaria solicita profesor para curso de Matematicas");
+		vacante.setFecha(new Date());
+		vacante.setSalario(8500.0);
+		vacante.setEstatus("Aprobada");
+		vacante.setDestacado(0);
+		vacante.setImagen("escuela.png");
+		vacante.setDetalles("<h1>Los requisitos para profesor de Matematicas</h1>");
+		Categoria cat = new Categoria();
+		cat.setId(15);
+		vacante.setCategoria(cat);
+		repoVacantes.save(vacante);
 	}
 	
 	/**
@@ -222,6 +298,29 @@ public class EmpleosApplication implements CommandLineRunner{
 		lista.add(cat1);
 		lista.add(cat2);
 		lista.add(cat3);
+		return lista;
+	}
+	
+	/**
+	 * Metodo que regresa una lista de objetos de tipo Perfil que representa los diferentes PERFILES 
+	 * O ROLES que tendremos en nuestra aplicación de Empleos
+	 * @return
+	 */
+	private List<Rol> getPerfilesAplicacion(){		
+		List<Rol> lista = new LinkedList<Rol>();
+		Rol per1 = new Rol();
+		per1.setRol("SUPERVISOR");
+		
+		Rol per2 = new Rol();
+		per2.setRol("ADMINISTRADOR");
+		
+		Rol per3 = new Rol();
+		per3.setRol("USUARIO");
+		
+		lista.add(per1);
+		lista.add(per2);
+		lista.add(per3);
+		
 		return lista;
 	}
 }
