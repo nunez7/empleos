@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>EmpleosApp | Listado de Categorias</title>
+    <title>EmpleosApp | Listado de Categorías</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -25,7 +25,7 @@
       <div class="container"> 
 
         <div class="card">
-          <h4 class="card-header"><strong>Listado de categorias de Ofertas de Trabajo</strong></h4>              
+          <h4 class="card-header"><strong>Listado de Categorías</strong></h4>              
           <div class="card-body">
             <a class="btn btn-primary" th:href="@{/categorias/create}" title="Crear nueva categoria" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>            
             <hr>
@@ -43,8 +43,8 @@
                   <td th:text="${categoria.nombre}"></td>                  
                   <td th:text="${categoria.descripcion}"></td>
                   <td>
-                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                    <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                    <a th:href="@{/categorias/edit/{id}  (id=${categoria.id})   }" class="btn btn-warning btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                    <a th:href="@{/categorias/delete/{id}  (id=${categoria.id})   }" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
                   </td>
                 </tr>                                              
               </tbody>
