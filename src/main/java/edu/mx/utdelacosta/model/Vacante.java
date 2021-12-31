@@ -8,9 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+@Entity
+@Table(name="vacantes")
 public class Vacante {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String descripcion;
@@ -20,6 +25,7 @@ public class Vacante {
 	private Integer destacado;
 	private String imagen="no-image.png";
 	private String detalles;
+	@Transient
 	private Categoria categoria;
 
 	public Integer getId() {
