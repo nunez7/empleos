@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.mx.utdelacosta.model.Vacante;
 import edu.mx.utdelacosta.service.ICategoriasService;
 import edu.mx.utdelacosta.service.IVacantesService;
+import edu.mx.utdelacosta.util.Utileria;
 
 @Controller
 @RequestMapping("/vacantes")
@@ -29,10 +31,8 @@ public class VacantesController {
 	@Autowired
 	private IVacantesService serviceVacantes;
 
-	
-	 @Autowired 
-	 private ICategoriasService serviceCategorias;
-	 
+	@Autowired
+	private ICategoriasService serviceCategorias;
 
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) {
@@ -43,12 +43,13 @@ public class VacantesController {
 
 	@GetMapping("/create")
 	public String crear(Vacante vacante, Model model) {
-		model.addAttribute("categorias", serviceCategorias.buscarTodas() );
+		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		return "vacantes/formVacante";
 	}
 
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes) {
+	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes,
+			@RequestParam("archivoImagen") MultipartFile multiPart) {
 		if (result.hasErrors()) {
 			// Mandar errores a consola
 			for (ObjectError error : result.getAllErrors()) {
@@ -56,10 +57,20 @@ public class VacantesController {
 			}
 			return "vacantes/formVacante";
 		}
+		//Si hay una imagen la guardamos
+		if (!multiPart.isEmpty()) {
+			// String ruta = "/empleos/img-vacantes/"; // Linux/MAC
+			String ruta = "c:/empleos/img-vacantes/"; // Windows
+			String nombreImagen = Utileria.guardarArchivo(multiPart, ruta);
+			if (nombreImagen != null) { // La imagen si se subio
+				// Procesamos la variable nombreImagen
+				vacante.setImagen(nombreImagen);
+			}
+		}
 		serviceVacantes.guardar(vacante);
 		System.out.println("Vacante: " + vacante);
 		attributes.addFlashAttribute("msg", "Registro Guardado");
-		return "redirect:/vacantes/index"; 
+		return "redirect:/vacantes/index";
 	}
 
 	/*
