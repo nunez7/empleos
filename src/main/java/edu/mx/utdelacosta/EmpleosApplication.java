@@ -13,7 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import edu.mx.utdelacosta.model.Categoria;
+import edu.mx.utdelacosta.model.Vacante;
 import edu.mx.utdelacosta.repository.CategoriasRepository;
+import edu.mx.utdelacosta.repository.VacantesRepository;
 
 @SpringBootApplication
 public class EmpleosApplication implements CommandLineRunner{
@@ -21,6 +23,9 @@ public class EmpleosApplication implements CommandLineRunner{
 	//inyectando un repositorio
 	@Autowired
 	private CategoriasRepository repo;
+	
+	@Autowired
+	private VacantesRepository repoVacantes;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmpleosApplication.class, args);
@@ -28,7 +33,17 @@ public class EmpleosApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		//eliminar();
+		buscarVacantes();
+	}
+	
+	/**
+	 * Este metodo permite buscar todas las vacantes en la base de datos
+	 */
+	private void buscarVacantes() {
+		List<Vacante> lista = repoVacantes.findAll();
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + " " + v.getNombre() + "-> " + v.getCategoria().getNombre());
+		}
 	}
 
 	/**

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -25,7 +27,9 @@ public class Vacante {
 	private Integer destacado;
 	private String imagen="no-image.png";
 	private String detalles;
-	@Transient
+	//@Transient
+	@OneToOne
+	@JoinColumn(name="id_categoria")
 	private Categoria categoria;
 
 	public Integer getId() {
