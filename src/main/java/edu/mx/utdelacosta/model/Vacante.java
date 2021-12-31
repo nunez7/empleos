@@ -3,16 +3,26 @@ package edu.mx.utdelacosta.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="vacantes")
 public class Vacante {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String descripcion;
 	private Date fecha;
 	private Double salario;
+	private String estatus;
 	private Integer destacado;
 	private String imagen="no-image.png";
-	private String estatus;
 	private String detalles;
 	private Categoria categoria;
 
