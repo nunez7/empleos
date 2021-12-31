@@ -95,11 +95,12 @@ public class VacantesController {
 	 * }
 	 */
 
-	@GetMapping("/delete")
-	public String eliminar(@RequestParam("id") int idVacante, Model model) {
+	@GetMapping("/delete/{id}")
+	public String eliminar(@PathVariable("id") int idVacante, Model model, RedirectAttributes attributes) {
 		System.out.println("Borrando vacante con id: " + idVacante);
-		model.addAttribute("id", idVacante);
-		return "mensaje";
+		serviceVacantes.eliminar(idVacante);
+		attributes.addFlashAttribute("msg", "La vacante fue eliminada");
+		return "redirect:/vacantes/index";
 	}
 
 	// URL Dinamica
