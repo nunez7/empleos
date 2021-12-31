@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ import edu.mx.utdelacosta.util.Utileria;
 @Controller
 @RequestMapping("/vacantes")
 public class VacantesController {
+	//Inyectando desde properties
+	@Value("${empleosapp.ruta.imagenes}")
+	private String ruta;
 
 	@Autowired
 	private IVacantesService serviceVacantes;
@@ -60,7 +64,7 @@ public class VacantesController {
 		//Si hay una imagen la guardamos
 		if (!multiPart.isEmpty()) {
 			// String ruta = "/empleos/img-vacantes/"; // Linux/MAC
-			String ruta = "c:/empleos/img-vacantes/"; // Windows
+			//String ruta = "c:/empleos/img-vacantes/"; // Windows
 			String nombreImagen = Utileria.guardarArchivo(multiPart, ruta);
 			if (nombreImagen != null) { // La imagen si se subio
 				// Procesamos la variable nombreImagen
