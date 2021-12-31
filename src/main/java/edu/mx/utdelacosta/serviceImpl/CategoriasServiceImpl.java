@@ -1,4 +1,4 @@
-package edu.mx.utdelacosta.service.impl;
+package edu.mx.utdelacosta.serviceImpl;
 
 import java.util.LinkedList;
 import java.util.List;
