@@ -30,6 +30,7 @@
             <a class="btn btn-primary" th:href="@{/vacantes/create}" title="Crear nueva Oferta de Trabajo" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>            
             <hr>
             <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+            <div class="table-responsive">
             <table class="table table-hover">
               <thead class="thead-light">
                 <tr>
@@ -54,7 +55,7 @@
                   </td>
                 </tr>                                              
               </tbody>
-            </table>
+            </table></div>
             <nav th:if="${vacantes.totalPages>0}" aria-label="Page navigation example">
             	<ul class="pagination">
             		<li class="page-item"><a th:href="@{/vacantes/indexPaginate(page=${vacantes.number -1})}" class="page-link">Anterior</a></li>
