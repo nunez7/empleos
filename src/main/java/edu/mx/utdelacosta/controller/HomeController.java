@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -26,7 +27,7 @@ import edu.mx.utdelacosta.service.IVacantesService;
 
 @Controller
 public class HomeController {
-	//Inyectando instancias
+	// Inyectando instancias
 	@Autowired
 	private IVacantesService serviceVacantes;
 
@@ -35,6 +36,9 @@ public class HomeController {
 
 	@Autowired
 	private ICategoriasService serviceCategorias;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/tabla")
 	public String mostrarTabla(Model model) {
@@ -83,6 +87,12 @@ public class HomeController {
 		// Ejercicio.
 		usuario.setEstatus(1); // Activado por defecto
 		usuario.setFechaRegistro(new Date()); // Fecha de Registro, la fecha actual del servidor
+		// Recuperamos el password en texto plano
+		String pwdPlano = usuario.getPassword();
+		// Encriptamos el pwd BCryptPasswordEncoder
+		String pwdEncriptado = passwordEncoder.encode(pwdPlano);
+		// Hacemos un set al atributo password (ya viene encriptado)
+		usuario.setPassword(pwdEncriptado);
 		// Creamos el Perfil que le asignaremos al usuario nuevo
 		Rol rol = new Rol();
 		rol.setId(3); // Perfil USUARIO
@@ -97,11 +107,10 @@ public class HomeController {
 
 	@GetMapping("/search")
 	public String buscar(@ModelAttribute("search") Vacante vacante, Model model) {
-		//System.out.println("buscando por: "+vacante);
-		//En el buscador se usa like en lugar de =
-		ExampleMatcher martcher = ExampleMatcher.matching()
-				.withMatcher("descripcion", ExampleMatcher.GenericPropertyMatchers.contains());
-
+		// System.out.println("buscando por: "+vacante);
+		// En el buscador se usa like en lugar de =
+		ExampleMatcher martcher = ExampleMatcher.matching().withMatcher("descripcion",
+				ExampleMatcher.GenericPropertyMatchers.contains());
 
 		Example<Vacante> example = Example.of(vacante, martcher);
 		List<Vacante> lista = serviceVacantes.buscarByExample(example);
@@ -109,19 +118,22 @@ public class HomeController {
 		return "home";
 	}
 
-	/*InitBinder para String, si los detecta vacios en el Data Binding los settea a NULL*/
+	/*
+	 * InitBinder para String, si los detecta vacios en el Data Binding los settea a
+	 * NULL
+	 */
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
-	//Estos atributos estaran disponibles a todos los metodos
+	// Estos atributos estaran disponibles a todos los metodos
 	@ModelAttribute
 	public void setGenericos(Model model) {
 		Vacante vacanteSearch = new Vacante();
-		//Resetea la imagen a null para que no envie datos para busqueda
+		// Resetea la imagen a null para que no envie datos para busqueda
 		vacanteSearch.reset();
-		model.addAttribute("search",vacanteSearch);
+		model.addAttribute("search", vacanteSearch);
 		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		model.addAttribute("vacantes", serviceVacantes.buscarDestacadas());
 	}
