@@ -3,19 +3,25 @@ package edu.mx.utdelacosta.controller;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.mx.utdelacosta.model.Rol;
@@ -39,6 +45,31 @@ public class HomeController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	/**
+	 * Método que esta mapeado al botón Ingresar en el menú
+	 * @param authentication
+	 * @param session
+	 * @return
+	 */
+	@GetMapping("/index")
+	public String mostrarIndex(Authentication authentication, HttpSession session) {		
+		
+		// Como el usuario ya ingreso, ya podemos agregar a la session el objeto usuario.
+		String username = authentication.getName();		
+		
+		for(GrantedAuthority rol: authentication.getAuthorities()) {
+			System.out.println("ROL: " + rol.getAuthority());
+		}
+		
+		if (session.getAttribute("usuario") == null){
+			Usuario usuario = serviceUsuarios.buscarPorUsername(username);	
+			//System.out.println("Usuario: " + usuario);
+			session.setAttribute("usuario", usuario);
+		}
+		
+		return "redirect:/";
+	}
 
 	@GetMapping("/tabla")
 	public String mostrarTabla(Model model) {
@@ -127,13 +158,16 @@ public class HomeController {
 		return "acerca";
 	}
 
-	/*
-	 * InitBinder para String, si los detecta vacios en el Data Binding los settea a
-	 * NULL
+	/**
+	 * Método personalizado para cerrar la sesión del usuario
+	 * @param request
+	 * @return
 	 */
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+		logoutHandler.logout(request, null, null);
+		return "redirect:/";
 	}
 
 	// Estos atributos estaran disponibles a todos los metodos
@@ -146,4 +180,24 @@ public class HomeController {
 		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		model.addAttribute("vacantes", serviceVacantes.buscarDestacadas());
 	}
+
+	/*
+	 * InitBinder para String, si los detecta vacios en el Data Binding los settea a
+	 * NULL
+	 */
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
+	
+	/**
+     * Utileria para encriptar texto con el algorito BCrypt
+     * @param texto
+     * @return
+     */
+    @GetMapping("/bcrypt/{texto}")
+    @ResponseBody
+   	public String encriptar(@PathVariable("texto") String texto) {    	
+   		return texto + " Encriptado en Bcrypt: " + passwordEncoder.encode(texto);
+   	}
 }

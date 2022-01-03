@@ -3,6 +3,8 @@ package edu.mx.utdelacosta.service.db;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,30 @@ public class UsuariosServiceJpa implements IUsuariosService {
 			return optional.get();
 		}
 		return null;
+	}
+
+	@Override
+	public Usuario buscarPorUsername(String username) {
+		return usuariosRepo.findByUsername(username);
+	}
+
+	@Override
+	public List<Usuario> buscarRegistrados() {		
+		return usuariosRepo.findByFechaRegistroNotNull();
+	}
+
+	@Transactional
+	@Override
+	public int bloquear(int idUsuario) {
+		int rows = usuariosRepo.lock(idUsuario);
+		return rows;
+	}
+
+	@Transactional
+	@Override
+	public int activar(int idUsuario) {
+		int rows = usuariosRepo.unlock(idUsuario);
+		return rows;
 	}
 
 }

@@ -40,10 +40,13 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 			"/tinymce/**",
 			"/logos/**").permitAll()
 		// Las vistas públicas no requieren autenticación
-		.antMatchers("/",
-			"/signup",
-			"/search",
-			"/vacantes/view/**").permitAll()
+        .antMatchers("/", 
+        			 "/login",
+        			 "/signup",
+        			 "/search",
+        			 "/bcrypt/**",
+        			 "/about",
+        			 "/vacantes/view/**").permitAll()
 			
 		// Todas las demás URLs de la Aplicación requieren autenticación
 		.anyRequest().authenticated()
