@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.mx.utdelacosta.model.Usuario;
 import edu.mx.utdelacosta.service.IUsuariosService;
 
 @Controller
@@ -32,19 +31,30 @@ public class UsuariosController {
     	attributes.addFlashAttribute("msg", "El usuario fue eliminado");
 		return "redirect:/usuarios/index";
 	}
-
-    @GetMapping("/block/{id}")
-   	public String bloquearUsuario(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {
-       	// Ejercicio.
-    	Usuario usuario = serviceUsuarios.buscarPorId(idUsuario);
-    	if(usuario.getEstatus()==0) {
-           	usuario.setEstatus(1);
-           	attributes.addFlashAttribute("msg", "El usuario fue activado");
-    	}else {
-           	usuario.setEstatus(0);
-           	attributes.addFlashAttribute("msg", "El usuario fue bloqueado");
-    	}
-       	serviceUsuarios.guardar(usuario);
-   		return "redirect:/usuarios/index";
-   	}
+    
+    /**
+     * Método para activar un usuario
+     * @param idUsuario
+     * @param attributes
+     * @return
+     */
+    @GetMapping("/unlock/{id}")
+	public String activar(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {		
+    	serviceUsuarios.activar(idUsuario);
+		attributes.addFlashAttribute("msg", "El usuario fue activado y ahora tiene acceso al sistema.");		
+		return "redirect:/usuarios/index";
+	}
+    
+	/**
+	 * Método para bloquear un usuario
+	 * @param idUsuario
+	 * @param attributes
+	 * @return
+	 */
+	@GetMapping("/lock/{id}")
+	public String bloquear(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {		
+		serviceUsuarios.bloquear(idUsuario);
+		attributes.addFlashAttribute("msg", "El usuario fue bloqueado y no tendra acceso al sistema.");		
+		return "redirect:/usuarios/index";
+	}
 }
