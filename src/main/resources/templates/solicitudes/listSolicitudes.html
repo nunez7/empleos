@@ -43,7 +43,7 @@
                   <td th:text="${solicitud.vacante.categoria.nombre}">Finanzas</td>
                   <td th:text="${solicitud.vacante.nombre}">Contador Público</td>
                   <td th:text="${solicitud.usuario.nombre}">Maria Gómez</td>
-                  <td th:text="${#dates.format(solicitud.fecha, 'dd-MM-yyyy')}">12-01-2019</td>
+                  <td th:text="${#dates.format(solicitud.fecha, 'dd/MM/yyyy')}">12-01-2019</td>
                   <td>                    
                     <a th:href="@{/solicitudes/delete/{id} (id=${solicitud.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>                    
                     <a th:href="@{/cv/{archivo} (archivo=${solicitud.archivo}) } " target="_blank" class="btn btn-success btn-sm" role="button" title="Descargar Curriculm Vitae."><i class="fas fa-download" aria-hidden="true"></i></a>

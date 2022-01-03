@@ -10,10 +10,10 @@
       <a class="nav-link" th:href="@{/solicitudes/indexPaginate}">Solicitudes</a>
 	   </li>
 	   <li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
-	      <a class="nav-link" th:href="@{/vacantes/indexPaginate}">Vacantes</a>
+	       <a class="nav-link" th:href="@{/vacantes/indexPaginate}">Vacantes</a>
 	   </li>
 	   <li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
-	      <a class="nav-link" th:href="@{/categorias/indexPaginate}">Categorías</a>
+	      <a class="nav-link" th:href="@{/categorias/index}">Categorías</a>
 	   </li>
 	   <li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
 	      <a class="nav-link" th:href="@{/usuarios/index}" >Usuarios</a>
