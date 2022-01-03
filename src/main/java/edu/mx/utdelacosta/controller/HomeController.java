@@ -191,6 +191,15 @@ public class HomeController {
 	}
 	
 	/**
+	 * Método que muestra el formulario de login personalizado.
+	 * @return
+	 */
+	@GetMapping("/login")
+	public String mostrarLogin() {
+		return "login";
+	}
+	
+	/**
      * Utileria para encriptar texto con el algorito BCrypt
      * @param texto
      * @return
