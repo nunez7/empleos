@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="vacantes")
 public class Vacante {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -80,8 +80,8 @@ public class Vacante {
 		this.destacado = destacado;
 	}
 
-	
-	
+
+
 	public String getImagen() {
 		return imagen;
 	}
@@ -105,7 +105,7 @@ public class Vacante {
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
 	}
-	
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -113,7 +113,7 @@ public class Vacante {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
+
 	public void reset() {
 		this.imagen = null;
 	}
@@ -124,6 +124,6 @@ public class Vacante {
 				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + ", estatus=" + estatus
 				+ ", detalles=" + detalles + ", categoria=" + categoria + "]";
 	}
-	
+
 
 }

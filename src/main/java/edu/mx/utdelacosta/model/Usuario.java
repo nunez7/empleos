@@ -3,6 +3,7 @@ package edu.mx.utdelacosta.model;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Usuario {
 
 	public void agregar(Rol tempRol) {
 		if (roles == null) {
-			roles = new LinkedList<Rol>();
+			roles = new LinkedList<>();
 		}
 		roles.add(tempRol);
 	}

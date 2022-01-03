@@ -47,7 +47,7 @@ public class VacantesController {
 		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
 		return "vacantes/listVacantes";
 	}
-	
+
 	@GetMapping(value = "/indexPaginate")
 	public String mostrarIndexPaginado(Model model, Pageable page) {
 		Page<Vacante> lista = serviceVacantes.buscarTodas(page);
@@ -89,10 +89,10 @@ public class VacantesController {
 	/*
 	 * @PostMapping("/save") public String guardar(@RequestParam("nombre") String
 	 * nombre, @RequestParam("descripcion") String descripcion,
-	 * 
+	 *
 	 * @RequestParam("estatus") String estatus, @RequestParam("fecha") String
 	 * fecha, @RequestParam("destacado") int destacado,
-	 * 
+	 *
 	 * @RequestParam("salario") double salario, @RequestParam("detalles") String
 	 * detalles) { System.out.println("Nombre Vacante: " + nombre);
 	 * System.out.println("Descripcion: " + descripcion);
@@ -111,7 +111,7 @@ public class VacantesController {
 		attributes.addFlashAttribute("msg", "La vacante fue eliminada");
 		return "redirect:/vacantes/index";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String editar(@PathVariable("id") int idVacante, Model model) {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);

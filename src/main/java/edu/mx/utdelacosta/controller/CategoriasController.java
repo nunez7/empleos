@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.mx.utdelacosta.model.Categoria;
-import edu.mx.utdelacosta.model.Vacante;
 import edu.mx.utdelacosta.service.ICategoriasService;
 
 @Controller
 @RequestMapping(value = "/categorias")
 public class CategoriasController {
-	
-	 @Autowired 
+
+	 @Autowired
 	 private ICategoriasService serviceCategorias;
 
 	// @GetMapping("/index")
@@ -45,16 +44,16 @@ public class CategoriasController {
 		}
 		serviceCategorias.guardar(categoria);
 		attributes.addFlashAttribute("msg", "Registro Guardado");
-		return "redirect:/categorias/index"; 
+		return "redirect:/categorias/index";
 	}
-	
+
 	@GetMapping("/delete/{id}")
 	public String eliminar(@PathVariable("id") int idCategoria, RedirectAttributes attributes) {
 		serviceCategorias.eliminar(idCategoria);
 		attributes.addFlashAttribute("msg", "La categoria fue eliminada");
 		return "redirect:/categorias/index";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String editar(@PathVariable("id") int idCategoria, Model model) {
 		Categoria categoria = serviceCategorias.buscarPorId(idCategoria);

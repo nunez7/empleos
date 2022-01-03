@@ -20,7 +20,7 @@ public class VacantesServiceImpl implements IVacantesService {
 
 	public VacantesServiceImpl() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		lista = new LinkedList<Vacante>();
+		lista = new LinkedList<>();
 		try {
 			// Creamos la oferta de Trabajo 1.
 			Vacante vacante1 = new Vacante();
@@ -110,7 +110,7 @@ public class VacantesServiceImpl implements IVacantesService {
 	@Override
 	public void eliminar(Integer idVacante) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

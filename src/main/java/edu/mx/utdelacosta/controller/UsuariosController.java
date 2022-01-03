@@ -14,27 +14,27 @@ import edu.mx.utdelacosta.service.IUsuariosService;
 @Controller
 @RequestMapping("/usuarios")
 public class UsuariosController {
-	
+
 	@Autowired
 	private IUsuariosService serviceUsuarios;
-    
+
     @GetMapping("/index")
 	public String mostrarIndex(Model model) {
     	// Ejercicio
     	model.addAttribute("usuarios", serviceUsuarios.buscarTodos());
     	return "usuarios/listUsuarios";
 	}
-    
+
     @GetMapping("/delete/{id}")
-	public String eliminar(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {		    	
+	public String eliminar(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {
     	// Ejercicio.
     	serviceUsuarios.eliminar(idUsuario);
     	attributes.addFlashAttribute("msg", "El usuario fue eliminado");
 		return "redirect:/usuarios/index";
 	}
-    
+
     @GetMapping("/block/{id}")
-   	public String bloquearUsuario(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {		    	
+   	public String bloquearUsuario(@PathVariable("id") int idUsuario, RedirectAttributes attributes) {
        	// Ejercicio.
     	Usuario usuario = serviceUsuarios.buscarPorId(idUsuario);
     	if(usuario.getEstatus()==0) {

@@ -15,15 +15,18 @@ public class UsuariosServiceJpa implements IUsuariosService {
 
 	@Autowired
 	private UsuariosRepository usuariosRepo;
-	
+
+	@Override
 	public void guardar(Usuario usuario) {
 		usuariosRepo.save(usuario);
 	}
 
+	@Override
 	public void eliminar(Integer idUsuario) {
 		usuariosRepo.deleteById(idUsuario);
 	}
 
+	@Override
 	public List<Usuario> buscarTodos() {
 		return usuariosRepo.findAll();
 	}
