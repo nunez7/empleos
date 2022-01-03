@@ -6,6 +6,9 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+        <a class="nav-link" th:href="@{/Solicitudes/index}">Solicitudes</a>
+      </li> 
       <li class="nav-item">
         <a class="nav-link" th:href="@{/vacantes/indexPaginate}">Vacantes</a>
       </li>   
@@ -15,6 +18,9 @@
       <li class="nav-item">
         <a class="nav-link" th:href="@{/usuarios/index}">Usuarios</a>
       </li>   
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/about}">Acerca</a>
+      </li>
     </ul>  
     <a class="btn btn-primary" href="#">Ingresar</a>&nbsp;
     <a class="btn btn-primary" th:href="@{/signup}">Registrarse</a>&nbsp;

@@ -117,6 +117,15 @@ public class HomeController {
 		model.addAttribute("vacantes", lista);
 		return "home";
 	}
+	
+	/**
+	 * Metodo que muestra la vista de la pagina de Acerca
+	 * @return
+	 */
+	@GetMapping("/about")
+	public String mostrarAcerca() {			
+		return "acerca";
+	}
 
 	/*
 	 * InitBinder para String, si los detecta vacios en el Data Binding los settea a
