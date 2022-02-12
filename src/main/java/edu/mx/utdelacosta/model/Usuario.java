@@ -38,6 +38,7 @@ public class Usuario {
 		}
 		roles.add(tempRol);
 	}
+	
 
 	public Integer getId() {
 		return id;
